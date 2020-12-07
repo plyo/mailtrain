@@ -12,8 +12,9 @@ jobs:
           command: |
             image_name=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}
             docker build -t ${image_name} .
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push ${image_name}
+            docker tag ${image_name} registry.plyo.website/${image_name}
+            docker login -u $PLYO_DOCKER_USER -p $PLYO_DOCKER_PASS https://registry.plyo.website
+            docker push registry.plyo.website/${image_name}
       - run:
           name: Post message about deployment into slack
           command: |
